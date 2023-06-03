@@ -1,0 +1,127 @@
+/*  GENERAL  --------------------------------------------------------------------------------------*/
+
+body {
+    overflow-y: scroll;
+    margin-left: 128px;
+    margin-right: 128px;
+    background-color: #F5F5F5;
+}
+
+
+
+
+
+/*  HEADER ----------------------------------------------------------------------------------------*/
+
+#headertext {
+    margin-top: 112px;
+    margin-bottom: 88px;
+
+    font-family: 'Garamond';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 32px;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: black;
+}
+
+#buttonrow {
+    margin-bottom: 20px;
+    margin-left: 28px;
+}
+
+
+.filterbutton {
+    margin-right: 28px;
+    margin-bottom: 32px;
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    background-color: #E9EDF0;
+}
+
+.filterbutton:hover {
+    margin-right: 28px;
+    margin-bottom: 32px;
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    background-color: #c9ced1;
+}
+
+
+
+
+/*  GALLERY ----------------------------------------------------------------------------------------*/
+
+#weighttext {
+    padding-top: 22px;
+    margin-top: 0px;
+    margin-bottom: 12px;
+    text-align: center;
+    
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    max-lines: 1;
+}
+
+#datetext {
+    margin-top: 0px;
+    padding-bottom: 22px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.1em;
+    max-lines: 3;
+}
+
+#imgcardtext {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: center;
+    width: 304px;
+    background-color: white;
+}
+
+#imgcard {
+    float: left;
+    margin: 22px;
+    margin-top: 0;
+}
+
+#gallery {
+    text-align: left;
+
+}

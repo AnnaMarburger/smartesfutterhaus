@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="./style.css">
+  <script src="gallery.js"></script>
+
+  <title>Smartes Futterhäuschen</title>
+</head>
+
+<body>
+    <header>
+      <h2 id="headertext"> SMARTES   FUTTERHÄUSCHEN </h2>
+
+      <div id ="buttonrow">
+        <button id = "buttonAlle" class = "filterbutton" type="button" onclick=loadJSONData(0)>Alle</button>
+        <button id = "buttonHeute" class = "filterbutton" type="button" onclick=loadJSONData(1)>Heute</button>
+        <button id = "buttonDieseWoche" class = "filterbutton" type="button" onclick=loadJSONData(2)>Diese Woche</button>
+        <button id = "buttonSmol" class = "filterbutton" type="button" onclick=loadJSONData(3)>Smol > Heavy</button>
+        <button id = "buttonBig" class = "filterbutton" type="button" onclick=loadJSONData(4)>Heavy > Smol</button>
+      </div>
+    </header>
+
+    <div id="gallery-container" class="grid-container">
+    </div>
+
+</body>
+
+</html>
