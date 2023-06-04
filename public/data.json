@@ -1,44 +1,24 @@
 {
   "data": [
     {
-      "img": "platzhalter.png",
-      "weight": "90",
-      "date": "2022-10-31T09:00:00.594Z"
-    },
-    {
-      "img": "platzhalter.png",
-      "weight": "311",
-      "date": "2022-10-31T09:00:00.594Z"
-    },
-    {
-      "img": "platzhalter.png",
-      "weight": "202",
-      "date": "2023-05-28T09:00:00.594Z"
-    },
-    {
-      "img": "platzhalter.png",
-      "weight": "513",
-      "date": "2023-06-02T09:00:00.594Z"
-    },
-    {
-      "img": "platzhalter.png",
-      "weight": "190",
-      "date": "2023-06-02T09:00:00.594Z"
-    },
-    {
-      "img": "platzhalter.png",
+      "img": "hummingbird-2139279_1280.jpg",
       "weight": "88",
-      "date": "2023-06-02T07:00:00.594Z"
+      "date": "Sun Jun 04 2023 12:04:44 GMT+0200 (Mitteleuropäische Sommerzeit)"
     },
     {
-      "img": "platzhalter.png",
-      "weight": "88",
-      "date": "Fri Jun 02 2023 22:20:31 GMT+0200 (Mitteleuropäische Sommerzeit)"
+      "img": "bird-386725_1280.jpg",
+      "weight": "108",
+      "date": "Sun Jun 01 2023 12:07:13 GMT+0200 (Mitteleuropäische Sommerzeit)"
     },
     {
-      "img": "EasternBluebirdMaleSide.jpg",
-      "weight": "88",
-      "date": "Fri Jun 02 2023 22:21:25 GMT+0200 (Mitteleuropäische Sommerzeit)"
+      "img": "hummingbird-2139279_1280.jpg",
+      "weight": "200",
+      "date": "Sun Jun 04 2023 12:09:33 GMT+0200 (Mitteleuropäische Sommerzeit)"
+    },
+    {
+      "img": "bird-386725_1280.jpg",
+      "weight": "300",
+      "date": "Sun Jun 03 2023 12:11:00 GMT+0200 (Mitteleuropäische Sommerzeit)"
     }
   ]
 }
