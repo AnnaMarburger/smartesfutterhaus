@@ -108,7 +108,7 @@ body {
 
 
 
-/* style for Phones -----------------------------------------------*/
+/* style for Phones ------------------------------------------------------------------------*/
 
 @media only screen and (max-width: 480px){
     body {
@@ -118,16 +118,17 @@ body {
 
     #headertext {
         margin-top: 70px;
-        margin-bottom: 48px;
+        margin-bottom: 64px;
         font-weight: 300;
         font-size: 28px;
-        line-height: 28px;
+        line-height: 38px;
         letter-spacing: 0.06em;
     }
     
     #buttonrow {
         margin-bottom: 24px;
         margin-left: 14px;
+        text-align: center;
     }
 
     .filterbutton {
@@ -156,6 +157,16 @@ body {
         padding-left: 6px;
         padding-right: 6px;
         width: 238px;
+    }
+
+    #imgcard {
+        float: center;
+        margin: 22px;
+        margin-top: 0;
+    }
+    
+    #gallery {
+        text-align: center;
     }
     
     

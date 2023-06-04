@@ -130,29 +130,43 @@ async function loadJSONData(filter) {
         if(window.screen.width <= 480){
             img.width = 250;
             img.height = 250;
+            //img on hover
+            img.onmouseenter = function(){
+                img.style.cssText  = `
+                    border: 2px solid white;
+                `;
+                img.width = 246;
+                img.height = 246;
+
+            };
+            img.onmouseleave = function(){
+                img.style.border = "none";
+                img.width = 250;
+                img.height = 250;
+            };
         } else{
             img.width = 320;
             img.height = 320;
+            //img on hover
+            img.onmouseenter = function(){
+                img.style.cssText  = `
+                    border: 2px solid white;
+                `;
+                img.width = 246;
+                img.height = 246;
+
+            };
+            img.onmouseleave = function(){
+                img.style.border = "none";
+                img.width = 250;
+                img.height = 250;
+            };
         }
         img.onclick = function(){
             console.log("img clicked");
             window.open(img.src);
         }
 
-        //img on hover
-        img.onmouseenter = function(){
-            img.style.cssText  = `
-                border: 2px solid white;
-            `;
-            img.width = 316;
-            img.height = 316;
-
-        };
-        img.onmouseleave = function(){
-            img.style.border = "none";
-            img.width = 320;
-            img.height = 320;
-        };
 
     
         //append
