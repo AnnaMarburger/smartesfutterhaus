@@ -45,9 +45,17 @@ function resetHighlights(){
 }
 
 async function applyFilter(filter){
-    const higlightedStyle = `
-        border: 4px solid white;
-    `;
+    var higlightedStyle;
+    if(window.screen.width <= 480){
+        higlightedStyle = `
+            border: 2px solid white;
+        `;
+    } else{
+        higlightedStyle = `
+            border: 4px solid white;
+         `;
+    }
+
 
     resetHighlights();
 
@@ -120,8 +128,8 @@ async function loadJSONData(filter) {
         img.id = "image";
         img.alt = "tschweep"
         if(window.screen.width <= 480){
-            img.width = 240;
-            img.height = 240;
+            img.width = 250;
+            img.height = 250;
         } else{
             img.width = 320;
             img.height = 320;
