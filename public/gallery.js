@@ -152,14 +152,14 @@ async function loadJSONData(filter) {
                 img.style.cssText  = `
                     border: 2px solid white;
                 `;
-                img.width = 246;
-                img.height = 246;
+                img.width = 316;
+                img.height = 316;
 
             };
             img.onmouseleave = function(){
                 img.style.border = "none";
-                img.width = 250;
-                img.height = 250;
+                img.width = 320;
+                img.height = 320;
             };
         }
         img.onclick = function(){
