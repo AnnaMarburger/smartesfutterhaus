@@ -119,7 +119,6 @@ body {
     #headertext {
         margin-top: 70px;
         margin-bottom: 48px;
-    
         font-weight: 300;
         font-size: 18px;
         line-height: 28px;
@@ -132,13 +131,13 @@ body {
     }
 
     .filterbutton {
-        margin-right: 14px;
+        margin-right: 12px;
         margin-bottom: 16px;
-        padding: 8px 16px;
-        border-radius: 12px;
+        padding: 8px 14px;
+        border-radius: 8px;
         font-weight: 50;
         font-size: 12px;
-        background-color: #E9EDF0;
+        color: black;
     }
 
     #weighttext {
@@ -157,7 +156,7 @@ body {
     #imgcardtext {
         padding-left: 6px;
         padding-right: 6px;
-        width: 160px;
+        width: 280px;
     }
     
     

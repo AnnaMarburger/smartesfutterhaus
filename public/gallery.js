@@ -120,8 +120,8 @@ async function loadJSONData(filter) {
         img.id = "image";
         img.alt = "tschweep"
         if(window.screen.width <= 480){
-            img.width = 160;
-            img.height = 160;
+            img.width = 280;
+            img.height = 280;
         } else{
             img.width = 320;
             img.height = 320;
