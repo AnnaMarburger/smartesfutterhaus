@@ -11,6 +11,8 @@ body {
 
 /*  HEADER ----------------------------------------------------------------------------------------*/
 
+
+
 #headertext {
     margin-top: 112px;
     margin-bottom: 88px;
@@ -102,10 +104,6 @@ body {
     margin-top: 0;
 }
 
-#gallery {
-    text-align: left;
-}
-
 
 
 /* style for Phones ------------------------------------------------------------------------*/
@@ -140,6 +138,10 @@ body {
         color: black;
     }
 
+    .filterbutton:hover {
+        background-color: #E9EDF0;
+    }
+
     #weighttext {
         padding-top: 16px;
         margin-bottom: 12px;
@@ -165,7 +167,7 @@ body {
         margin-top: 0;
     }
     
-    #gallery {
+    #gallery-container {
         text-align: center;
     }
     
