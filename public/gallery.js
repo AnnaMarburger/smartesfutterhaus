@@ -119,8 +119,13 @@ async function loadJSONData(filter) {
         img.src = "/uploads/"+name;
         img.id = "image";
         img.alt = "tschweep"
-        img.width = 320;
-        img.height = 320;
+        if(window.screen.width <= 480){
+            img.width = 160;
+            img.height = 160;
+        } else{
+            img.width = 320;
+            img.height = 320;
+        }
         img.onclick = function(){
             console.log("img clicked");
             window.open(img.src);

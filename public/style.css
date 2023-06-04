@@ -9,8 +9,6 @@ body {
 
 
 
-
-
 /*  HEADER ----------------------------------------------------------------------------------------*/
 
 #headertext {
@@ -55,23 +53,6 @@ body {
 }
 
 .filterbutton:hover {
-    margin-right: 28px;
-    margin-bottom: 32px;
-    padding: 14px 24px;
-
-    border: none;
-    border-radius: 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-
-    font-family: 'Arial';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 18px;
-    letter-spacing: 0.1em;
     background-color: #c9ced1;
 }
 
@@ -123,5 +104,61 @@ body {
 
 #gallery {
     text-align: left;
+}
 
+
+
+/* style for Phones -----------------------------------------------*/
+
+@media only screen and (max-width: 480px){
+    body {
+        margin-left: 32px;
+        margin-right: 32px;
+    }
+
+    #headertext {
+        margin-top: 70px;
+        margin-bottom: 48px;
+    
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: 0.06em;
+    }
+    
+    #buttonrow {
+        margin-bottom: 24px;
+        margin-left: 14px;
+    }
+
+    .filterbutton {
+        margin-right: 14px;
+        margin-bottom: 16px;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 50;
+        font-size: 12px;
+        background-color: #E9EDF0;
+    }
+
+    #weighttext {
+        padding-top: 16px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    #datetext {
+        padding-bottom: 16px;
+        font-size: 12px;
+        max-lines: 2;
+    }
+    
+    #imgcardtext {
+        padding-left: 6px;
+        padding-right: 6px;
+        width: 160px;
+    }
+    
+    
 }
