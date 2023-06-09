@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended: true}));
 function deleteimgfromfiles(name){
   const path = "./public/uploads/"+name;
   fs.unlink(path, (err) => {
-    console.log(err);
+    console.log("error occured while deleting: " + err);
   });
 }
 
@@ -113,7 +113,7 @@ app.post('/', upload.single("img"), (req, res) => {
     const date = new Date().toString()
 
     if(password != "SWH2023"){
-      res.status(403).send("You need the right password to post to this server.");
+      res.status(403).send(`You need the right password to post to this server. "${password}" is not correct.`);
       deleteimgfromfiles(img.originalname);
     } else if(img.size > 500000){
       res.status(403).send(`The image send was too big: ${img.size}`);
