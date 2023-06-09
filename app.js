@@ -104,6 +104,8 @@ app.delete('*', (req, res) => {
 
 //handle POST
 app.post('/', upload.single("img"), (req, res) => {
+
+    console.log('received post request.');
     
     const img = req.file;
     const weight = req.body.weight;
