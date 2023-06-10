@@ -74,6 +74,14 @@ app.get('*', (req, res) => {
         console.log("error while listening things from firebase: "+error);
       });
 
+      
+    //download data.json file
+    getBytes(ref(fbstorage, "data.json")).then((res)=>{
+      fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
+        if(err) console.log("error while saving data.json: "+err);
+      });
+    })
+
     //send back html to client
     res.sendFile(__dirname + '/index.html');
 });
@@ -180,18 +188,23 @@ app.post('/', upload.single("img"), (req, res) => {
                 return;
               }
               console.log('Data written successfully to data.json');
+
+               //upload data.json to firebase storage
+              const fbDataRef = ref(fbstorage, "data.json");
+              const jsonfile = fs.readFileSync(path.join(__dirname, "/public/data.json"));
+              uploadString(fbDataRef, jsonfile.toString("base64"), 'base64');
+              console.log("JSON uploaded to firebase");
           });
       })
-      
 
       //upload img to firebase storage
       const fbstorageImgRef = ref(fbstorage, "/images/"+img.originalname);
       const relPath= "/public/uploads/"+img.originalname;
-      const file = fs.readFileSync(path.join(__dirname, relPath));
-      uploadString(fbstorageImgRef, file.toString("base64"), 'base64')
+      const Imgfile = fs.readFileSync(path.join(__dirname, relPath));
+      uploadString(fbstorageImgRef, Imgfile.toString("base64"), 'base64')
         .then((snapshot) => {
           console.log('Uploaded file to firebase storage');
-        });
+        });   
 
       res.sendStatus(200);
     }
