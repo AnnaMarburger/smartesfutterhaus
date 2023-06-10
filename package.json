@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^4.18.2",
+    "firebase": "^9.22.2",
     "multer": "^1.4.5-lts.1"
   },
   "name": "smartes-futterhaus",
@@ -12,5 +13,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "type": "module"
 }

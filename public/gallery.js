@@ -83,7 +83,7 @@ async function applyFilter(filter){
 }
 
 
-async function loadJSONData(filter) {
+async function loadJSONData(filter, storage) {
 
     // get tha metadata
     const response = await fetch("./data.json");
@@ -125,6 +125,7 @@ async function loadJSONData(filter) {
 
         const img = document.createElement("img");
         img.src = "/uploads/"+name;
+        console.log(img.src);
         img.id = "image";
         img.alt = "tschweep"
         if(window.screen.width <= 480){

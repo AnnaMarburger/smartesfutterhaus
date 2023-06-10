@@ -1,11 +1,33 @@
 /* Server */
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, listAll, uploadString, getBytes, getBlob } from "firebase/storage";
 
-const fs = require('fs');
-const express = require('express');
+import fs from 'fs';
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 const app = express();
+const PORT = process.env.PORT || 3030;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+//firebase for storing images
+const firebaseConfig = {
+  apiKey: "AIzaSyC15L-sMTT9bQWNFh0u2Slh0LhDFCEDTpE",
+  authDomain: "smartesfutterhaus.firebaseapp.com",
+  projectId: "smartesfutterhaus",
+  storageBucket: "smartesfutterhaus.appspot.com",
+  messagingSenderId: "64678141794",
+  appId: "1:64678141794:web:499e0c75cd2a6a3181963b"
+};
+const fbapp = initializeApp(firebaseConfig);
+const fbstorage = getStorage(fbapp);
+
 
 //multer for saving incoming images
-const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './public/uploads/')
@@ -15,8 +37,6 @@ const storage = multer.diskStorage({
     }
   })
 const upload = multer({ storage: storage });
-
-const PORT = process.env.PORT || 3030;
 
 
 //Middleware
@@ -30,10 +50,31 @@ function deleteimgfromfiles(name){
   fs.unlink(path, (err) => {
     console.log("error occured while deleting: " + err);
   });
+
+  //delete from firebase storage
+  //TODO do
+
 }
 
 //handle GET
 app.get('*', (req, res) => {
+    //download images from storage
+    const imgListRef = ref(fbstorage, "/images");
+    listAll(imgListRef)
+      .then((res) => {
+        res.prefixes.forEach((folderRef) => {});
+        res.items.forEach((itemRef) => {
+          getBytes(itemRef).then((res) => {
+            fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
+              if(err) console.log("error while saving "+itemRef.name + ": "+err);
+            });
+          });
+        })
+      }).catch((error) => {
+        console.log("error while listening things from firebase: "+error);
+      });
+
+    //send back html to client
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -142,6 +183,16 @@ app.post('/', upload.single("img"), (req, res) => {
           });
       })
       
+
+      //upload img to firebase storage
+      const fbstorageImgRef = ref(fbstorage, "/images/"+img.originalname);
+      const relPath= "/public/uploads/"+img.originalname;
+      const file = fs.readFileSync(path.join(__dirname, relPath));
+      uploadString(fbstorageImgRef, file.toString("base64"), 'base64')
+        .then((snapshot) => {
+          console.log('Uploaded file to firebase storage');
+        });
+
       res.sendStatus(200);
     }
 
