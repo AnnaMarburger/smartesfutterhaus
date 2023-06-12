@@ -176,6 +176,8 @@ app.post('/', upload.single("img"), (req, res) => {
     const weight = req.body.weight;
     const password = req.body.password;
     const date = new Date().toString()
+    const newname = "espcam_"+date.toLocaleLowerCase().replace(" ", "");
+    console.log(newname);
 
     if(password != "SWH2023"){
       res.status(403).send(`You need the right password to post to this server. "${password}" is not correct.`);
@@ -197,7 +199,7 @@ app.post('/', upload.single("img"), (req, res) => {
           }
   
           datajson = JSON.parse(json);
-          datajson.data.push({"img": img.originalname, "weight": weight, "date": date});
+          datajson.data.push({"img": newname, "weight": weight, "date": date});
           fs.writeFile("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
               if (error) {
                 console.log('An error while writing data.json has occurred ', error);
@@ -211,7 +213,7 @@ app.post('/', upload.single("img"), (req, res) => {
       })
 
       //upload img to firebase storage
-      const fbstorageImgRef = ref(fbstorage, "/images/"+img.originalname);
+      const fbstorageImgRef = ref(fbstorage, "/images/"+newname);
       const relPath= "/public/uploads/"+img.originalname;
       const Imgfile = fs.readFileSync(path.join(__dirname, relPath));
       uploadString(fbstorageImgRef, Imgfile.toString("base64"), 'base64')
