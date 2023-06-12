@@ -98,7 +98,7 @@ app.delete('*', (req, res) => {
   if(password != "SWH2023"){
     res.status(403).send(`You need the right password to send a delete request to this server.${password
     } is incorrect.`);
-  } else if(imgname == "" || imgname == null){
+  } else if((imgname == "" || imgname == null) && type=="single"){
     res.status(403).send("Your DELETE request didn't contain a name field");
   } else if(type == "single"){
     deleteimgfromfiles(imgname);
@@ -123,7 +123,7 @@ app.delete('*', (req, res) => {
     })
 
     //delete img from firebase storage
-    deleteObject(ref(fbstorage, imgname));
+    deleteObject(ref(fbstorage, "/images/"+imgname));
 
     res.status(200).send(`You successfully deleted the file: ${imgname}`);
 
