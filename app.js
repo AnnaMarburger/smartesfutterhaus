@@ -1,6 +1,6 @@
 /* Server */
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, listAll, uploadString, getBytes, getBlob } from "firebase/storage";
+import { getStorage, ref, listAll, uploadString, getBytes, getBlob, deleteObject } from "firebase/storage";
 
 import fs from 'fs';
 import express from 'express';
@@ -62,7 +62,6 @@ app.get('*', (req, res) => {
     const imgListRef = ref(fbstorage, "/images");
     listAll(imgListRef)
       .then((res) => {
-        res.prefixes.forEach((folderRef) => {});
         res.items.forEach((itemRef) => {
           getBytes(itemRef).then((res) => {
             fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
@@ -71,7 +70,7 @@ app.get('*', (req, res) => {
           });
         })
       }).catch((error) => {
-        console.log("error while listening things from firebase: "+error);
+        console.log("error while listing things from firebase: "+error);
       });
 
       
@@ -89,10 +88,13 @@ app.get('*', (req, res) => {
 
 //handle DELETE
 app.delete('*', (req, res) => {
+
+  //get request vars
   const imgname = req.body.name;
   const password = req.body.password;
   const type = req.body.type;
 
+  //check if request correct
   if(password != "SWH2023"){
     res.status(403).send(`You need the right password to send a delete request to this server.${password
     } is incorrect.`);
@@ -100,37 +102,39 @@ app.delete('*', (req, res) => {
     res.status(403).send("Your DELETE request didn't contain a name field");
   } else if(type == "single"){
     deleteimgfromfiles(imgname);
+
     //delete meta data from image entry in data.json
     fs.readFile('./public/data.json', 'utf8', (error, json) => {
       if(error){
           console.log(error);
           return;
       }
-      
       var datajson = JSON.parse(json);
-      console.log("before filtering: " +datajson.data);
       var data = datajson.data.filter((obj)=>{return obj.img !== imgname});
       datajson.data = data;
-      console.log("after filtering: "+datajson.data);
       fs.writeFile("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
           if (error) {
             console.log('An error while deleting from data.json has occurred ', error);
             return;
           }
+          uploadJSONtoFB();
           console.log('Data deleted successfully from data.json');
       });
     })
 
+    //delete img from firebase storage
+    deleteObject(ref(fbstorage, imgname));
+
     res.status(200).send(`You successfully deleted the file: ${imgname}`);
 
   } else if (type == "all"){
-    //delete all pics and data
+
+    //delete all data from data.json
     fs.readFile('./public/data.json', 'utf8', (error, json) => {
       if(error){
           console.log(error);
           return;
       }
-      
       var datajson = JSON.parse(json);
       datajson.data.forEach(obj => {
         deleteimgfromfiles(obj.img);
@@ -141,14 +145,26 @@ app.delete('*', (req, res) => {
             console.log('An error while writing data.json has occurred ', error);
             return;
           }
+          uploadJSONtoFB();
           console.log('Data deleted successfully from data.json');
       });
     })
+    
+    //delete all imgages from firebase storage
+    listAll(ref(fbstorage, "/images"))
+      .then((res) => {
+        res.items.forEach((itemRef) => {
+          deleteObject(itemRef);
+        })
+      }).catch((error) => {
+        console.log("error while deleting img from firebase: "+error);
+      });
 
     res.status(200).send(`You successfully deleted all data`);
   }
 
 });
+
 
 
 //handle POST
@@ -190,10 +206,7 @@ app.post('/', upload.single("img"), (req, res) => {
               console.log('Data written successfully to data.json');
 
                //upload data.json to firebase storage
-              const fbDataRef = ref(fbstorage, "data.json");
-              const jsonfile = fs.readFileSync(path.join(__dirname, "/public/data.json"));
-              uploadString(fbDataRef, jsonfile.toString("base64"), 'base64');
-              console.log("JSON uploaded to firebase");
+               uploadJSONtoFB();
           });
       })
 
@@ -210,6 +223,18 @@ app.post('/', upload.single("img"), (req, res) => {
     }
 
 });
+
+function uploadJSONtoFB(){
+  const fbDataRef = ref(fbstorage, "data.json");
+  const jsonfile = fs.readFileSync(path.join(__dirname, "/public/data.json"));
+  uploadString(fbDataRef, jsonfile.toString("base64"), 'base64')
+    .then(() => {
+      console.log("JSON uploaded to firebase");
+    }).catch((error) => {
+      console.log(error);
+    });
+}
+
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
