@@ -176,7 +176,7 @@ app.post('/', upload.single("img"), (req, res) => {
     const weight = req.body.weight;
     const password = req.body.password;
     const date = new Date().toString()
-    const newname = "espcam_"+date.replace(" ", "_");
+    const newname = "espcam_"+date.replace(" ", "_")+".jpg";
     console.log(newname);
 
     if(password != "SWH2023"){
