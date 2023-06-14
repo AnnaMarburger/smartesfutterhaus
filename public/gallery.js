@@ -129,38 +129,38 @@ async function loadJSONData(filter, storage) {
         img.id = "image";
         img.alt = "tschweep"
         if(window.screen.width <= 480){
-            img.width = 250;
-            img.height = 250;
+            img.width = 264;
+            img.height = 198;
             //img on hover
             img.onmouseenter = function(){
                 img.style.cssText  = `
                     border: 2px solid white;
                 `;
-                img.width = 246;
-                img.height = 246;
+                img.width = 260;
+                img.height = 194;
 
             };
             img.onmouseleave = function(){
                 img.style.border = "none";
-                img.width = 250;
-                img.height = 250;
+                img.width = 264;
+                img.height = 198;
             };
         } else{
             img.width = 320;
-            img.height = 320;
+            img.height = 240;
             //img on hover
             img.onmouseenter = function(){
                 img.style.cssText  = `
                     border: 2px solid white;
                 `;
                 img.width = 316;
-                img.height = 316;
+                img.height = 236;
 
             };
             img.onmouseleave = function(){
                 img.style.border = "none";
                 img.width = 320;
-                img.height = 320;
+                img.height = 240;
             };
         }
         img.onclick = function(){

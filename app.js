@@ -180,7 +180,7 @@ app.post('/', upload.single("img"), (req, res) => {
     console.log(newname);
 
     if(password != "SWH2023"){
-      res.status(403).send(`You need the right password to post to this server. "${password}" is not correct.`);
+      res.status(403).send("You need the right password to post to this server");
       deleteimgfromfiles(img.originalname);
     } else if(img.size > 500000){
       res.status(403).send(`The image send was too big: ${img.size}`);
