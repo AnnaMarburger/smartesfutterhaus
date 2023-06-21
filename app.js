@@ -66,6 +66,17 @@ app.get('*', (req, res) => {
           getBytes(itemRef).then((res) => {
             fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
               if(err) console.log("error while saving "+itemRef.name + ": "+err);
+
+              //download data.json file
+              getBytes(ref(fbstorage, "data.json")).then((res)=>{
+                fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
+                  if(err) console.log("error while saving data.json: "+err);
+        
+                  //send back html to client
+                  res.sendFile(__dirname + '/index.html');
+                });
+              })
+              
             });
           });
         })
@@ -74,15 +85,8 @@ app.get('*', (req, res) => {
       });
 
       
-    //download data.json file
-    getBytes(ref(fbstorage, "data.json")).then((res)=>{
-      fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
-        if(err) console.log("error while saving data.json: "+err);
-      });
-    })
 
-    //send back html to client
-    res.sendFile(__dirname + '/index.html');
+   
 });
 
 
@@ -207,8 +211,8 @@ app.post('/', upload.single("img"), (req, res) => {
               }
               console.log('Data written successfully to data.json');
 
-               //upload data.json to firebase storage
-               uploadJSONtoFB();
+              //upload data.json to firebase storage
+              uploadJSONtoFB();
           });
       })
 
