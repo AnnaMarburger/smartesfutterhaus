@@ -56,37 +56,54 @@ function deleteimgfromfiles(name){
 
 }
 
-//handle GET
-app.get('*', (req, res) => {
-    //download images from storage
-    const imgListRef = ref(fbstorage, "/images");
-    listAll(imgListRef)
-      .then((res) => {
-        res.items.forEach((itemRef) => {
-          getBytes(itemRef).then((res) => {
-            fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
-              if(err) console.log("error while saving "+itemRef.name + ": "+err);
+async function download(){
 
-              //download data.json file
-              getBytes(ref(fbstorage, "data.json")).then((res)=>{
-                fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
-                  if(err) console.log("error while saving data.json: "+err);
-        
-                  //send back html to client
-                  res.sendFile(__dirname + '/index.html');
-                });
-              })
-              
-            });
-          });
-        })
-      }).catch((error) => {
-        console.log("error while listing things from firebase: "+error);
+  console.log("downloading: ");
+
+  //download data.json file
+  getBytes(ref(fbstorage, "data.json"))
+    .then((res)=>{
+      fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
+        if(err) console.log("error while saving data.json: "+err);
       });
+    }).catch((error) => {
+      console.log("error while downloading data.json: "+error);
+      return false;
+    });
 
-      
 
-   
+  //download images
+  const imgListRef = ref(fbstorage, "/images");
+  listAll(imgListRef)
+    .then((res) => {
+      res.items.forEach((itemRef) => {
+        getBytes(itemRef).then((res) => {
+          fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
+            if(err) console.log("error while saving "+itemRef.name + ": "+err);
+          });
+        });
+      });
+    }).catch((error) => {
+      console.log("error while listing things from firebase: "+error);
+      return false;
+    });
+  
+  //download done
+  console.log("done");
+  return true;
+
+}
+
+//handle GET
+app.get('*', (req, resToClient) => {
+   var success =  download();
+
+  //send back html to client
+  if(success){
+    resToClient.sendFile(__dirname + '/index.html');
+  } else {
+    resToClient.status(503).send("Internalserver error while downloading");
+  }
 });
 
 
