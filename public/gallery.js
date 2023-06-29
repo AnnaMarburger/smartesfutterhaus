@@ -87,7 +87,8 @@ async function loadJSONData(filter, storage) {
 
     //get the metadata
     const response = await fetch("./data.json");
-    datajson = response.json();
+    datajson = await response.json();
+    console.log(datajson.toString());
     data = datajson.data;
     if(data == 0){
         //no data there yet
@@ -105,13 +106,17 @@ async function loadJSONData(filter, storage) {
         text.innerText = "Noch keine Daten vorhanden";
         container.appendChild(text);
 
-
     } else {
         data.reverse(); //reverse order to show the newest pics first
 
         //check if filter is activated and style button accordingly
         await applyFilter(filter);
-    
+
+        //clear gallery-container
+        var container = document.getElementById("gallery-container");
+        while(container.firstChild){
+            container.removeChild(container.firstChild);
+        }
     
         //add img card to gallery for each data object (img+weight)
         data.forEach(obj => {
