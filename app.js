@@ -163,7 +163,7 @@ function checkIfUpToDate(){
   var json = fs.readFileSync('./public/data.json', 'utf8');
   var datajson = JSON.parse(json);
   var data = datajson.data;
-  if(data == undefined || data.length <1){
+  if(data.length <1){
     return false;
   } else{ 
     return true;
