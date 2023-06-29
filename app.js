@@ -158,6 +158,19 @@ function uploadJSONtoFB(){
 }
 
 
+function checkIfUpToDate(){
+  //check if data has to be downloaded
+  var json = fs.readFileSync('./public/data.json', 'utf8');
+  var datajson = JSON.parse(json);
+  var data = datajson.data;
+  if(data == undefined || data.length <1){
+    return false;
+  } else{ 
+    return true;
+  }
+}
+
+
 
 
 /*----------------------------------------Handle-Requests-Funtionen-------------------------------------------*/
@@ -165,15 +178,12 @@ function uploadJSONtoFB(){
 
 //handle GET
 app.get('*', (req, resToClient) => {
-  
-   //check if data has to be downloaded
-  var json = fs.readFileSync('./public/data.json', 'utf8');
-  var datajson = JSON.parse(json);
-  var data = datajson.data;
   var success;
-  if(data.length < 1){
+  if(checkIfUpToDate()){
+    success = true;
+  } else {
     success = downloadAllfromFB();
-  } else {success = true;}
+  }
 
   //send back html to client
   if(success){
@@ -271,9 +281,15 @@ app.post('/', upload.single("img"), (req, res) => {
     } else {
       var datajson;
 
-      //download current json file from database
-      if(downloadJSONfromFB()){
-    
+      //download current json file from database if not uptodate
+      var success;
+      if(checkIfUpToDate()){
+        success = true;
+      } else {
+        success = downloadJSONfromFB();
+      }
+
+      if(success){
         //safe meta data of image to json file
         var json = fs.readFileSync('./public/data.json', 'utf8');
         var datajson = JSON.parse(json);
@@ -284,10 +300,9 @@ app.post('/', upload.single("img"), (req, res) => {
               return;
             }
             console.log('Data written successfully to data.json');
-
-            //upload data.json to firebase storage
-            uploadJSONtoFB();
         });
+         //upload data.json to firebase storage
+         uploadJSONtoFB();
 
         //upload img to firebase storage
         const fbstorageImgRef = ref(fbstorage, "/images/"+newname);
