@@ -171,7 +171,7 @@ app.get('*', (req, resToClient) => {
   var datajson = JSON.parse(json);
   var data = datajson.data;
   var success;
-  if(data === undefined || data.length == 0){
+  if(data.length < 1){
     success = downloadAllfromFB();
   } else {success = true;}
 
