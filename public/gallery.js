@@ -180,7 +180,6 @@ async function loadJSONData(filter, storage) {
                 console.log("img clicked");
                 window.open(img.src);
             }
-    
         
             //append
             imgcardtext.appendChild(weighttext);
