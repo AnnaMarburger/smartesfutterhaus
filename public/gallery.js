@@ -85,99 +85,112 @@ async function applyFilter(filter){
 
 async function loadJSONData(filter, storage) {
 
-    // get tha metadata
+    //get the metadata
     const response = await fetch("./data.json");
-    datajson = await response.json();
+    datajson = response.json();
     data = datajson.data;
-    data.reverse(); //reverse order to show the newest pics first
+    if(data === undefined || data.length == 0){
+        //no data there yet
+        var container = document.getElementById("gallery-container");
 
-    //check if filter is activated and style button accordingly
-    await applyFilter(filter);
+        //clear gallery-container
+        var container = document.getElementById("gallery-container");
+        while(container.firstChild){
+            container.removeChild(container.firstChild);
+        }
 
-    //clear gallery-container
-    var container = document.getElementById("gallery-container");
-    while(container.firstChild){
-        container.removeChild(container.firstChild);
-    }
+        //show "no data" text
+        const text = document.createElement("h5");
+        text.id = "datetext";
+        text.innerText = "Noch keine Daten vorhanden";
+        container.appendChild(text);
 
-    //add img card to gallery for each data object (img+weight)
-    data.forEach(obj => {
-        var name = obj.img;
-        var weight = obj.weight;
-        var date = formatDate(obj.date);
 
-        //text
-        const imgcardtext = document.createElement("div");
-        imgcardtext.id = "imgcardtext";
-        
-        const weighttext = document.createElement("h5");
-        weighttext.id = "weighttext";
-        weighttext.innerText = weight + " g";
+    } else {
+        data.reverse(); //reverse order to show the newest pics first
 
-        const datetext = document.createElement("h5");
-        datetext.id = "datetext";
-        datetext.innerText = date;
-        
-        //img 
-        const imgcard = document.createElement("div");
-        imgcard.id = "imgcard";
-        imgcard.className = "grid-item";
-
-        const img = document.createElement("img");
-        img.src = "/uploads/"+name;
-        console.log(img.src);
-        img.id = "image";
-        img.alt = "tschweep"
-        if(window.screen.width <= 480){
-            img.width = 264;
-            img.height = 198;
-            //img on hover
-            img.onmouseenter = function(){
-                img.style.cssText  = `
-                    border: 2px solid white;
-                `;
-                img.width = 260;
-                img.height = 194;
-
-            };
-            img.onmouseleave = function(){
-                img.style.border = "none";
+        //check if filter is activated and style button accordingly
+        await applyFilter(filter);
+    
+    
+        //add img card to gallery for each data object (img+weight)
+        data.forEach(obj => {
+            var name = obj.img;
+            var weight = obj.weight;
+            var date = formatDate(obj.date);
+    
+            //text
+            const imgcardtext = document.createElement("div");
+            imgcardtext.id = "imgcardtext";
+            
+            const weighttext = document.createElement("h5");
+            weighttext.id = "weighttext";
+            weighttext.innerText = weight + " g";
+    
+            const datetext = document.createElement("h5");
+            datetext.id = "datetext";
+            datetext.innerText = date;
+            
+            //img 
+            const imgcard = document.createElement("div");
+            imgcard.id = "imgcard";
+            imgcard.className = "grid-item";
+    
+            const img = document.createElement("img");
+            img.src = "/uploads/"+name;
+            console.log(img.src);
+            img.id = "image";
+            img.alt = "tschweep"
+            if(window.screen.width <= 480){
                 img.width = 264;
                 img.height = 198;
-            };
-        } else{
-            img.width = 320;
-            img.height = 240;
-            //img on hover
-            img.onmouseenter = function(){
-                img.style.cssText  = `
-                    border: 2px solid white;
-                `;
-                img.width = 316;
-                img.height = 236;
-
-            };
-            img.onmouseleave = function(){
-                img.style.border = "none";
+                //img on hover
+                img.onmouseenter = function(){
+                    img.style.cssText  = `
+                        border: 2px solid white;
+                    `;
+                    img.width = 260;
+                    img.height = 194;
+    
+                };
+                img.onmouseleave = function(){
+                    img.style.border = "none";
+                    img.width = 264;
+                    img.height = 198;
+                };
+            } else{
                 img.width = 320;
                 img.height = 240;
-            };
-        }
-        img.onclick = function(){
-            console.log("img clicked");
-            window.open(img.src);
-        }
-
-
+                //img on hover
+                img.onmouseenter = function(){
+                    img.style.cssText  = `
+                        border: 2px solid white;
+                    `;
+                    img.width = 316;
+                    img.height = 236;
     
-        //append
-        imgcardtext.appendChild(weighttext);
-        imgcardtext.appendChild(datetext);
-        imgcard.appendChild(img);
-        imgcard.appendChild(imgcardtext);
-        container.appendChild(imgcard);
+                };
+                img.onmouseleave = function(){
+                    img.style.border = "none";
+                    img.width = 320;
+                    img.height = 240;
+                };
+            }
+            img.onclick = function(){
+                console.log("img clicked");
+                window.open(img.src);
+            }
+    
         
-    });
+            //append
+            imgcardtext.appendChild(weighttext);
+            imgcardtext.appendChild(datetext);
+            imgcard.appendChild(img);
+            imgcard.appendChild(imgcardtext);
+            container.appendChild(imgcard);
+            
+        });
+    }
 
 }
 

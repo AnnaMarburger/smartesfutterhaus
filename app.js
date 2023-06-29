@@ -68,23 +68,18 @@ function deleteImg(name){
   });
 
   //delete meta data from image entry in data.json
-  fs.readFile('./public/data.json', 'utf8', (error, json) => {
-    if(error){
-        console.log(error);
+  var json = fs.readFileSync('./public/data.json', 'utf8');
+  var datajson = JSON.parse(json);
+  var data = datajson.data.filter((obj)=>{return obj.img !== name});
+  datajson.data = data;
+  fs.writeFileSync("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
+      if (error) {
+        console.log('An error while deleting from data.json has occurred ', error);
         return false;
-    }
-    var datajson = JSON.parse(json);
-    var data = datajson.data.filter((obj)=>{return obj.img !== name});
-    datajson.data = data;
-    fs.writeFile("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
-        if (error) {
-          console.log('An error while deleting from data.json has occurred ', error);
-          return false;
-        }
-        uploadJSONtoFB();
-        console.log('Data deleted successfully from data.json');
-    });
-  })
+      }
+  });
+  uploadJSONtoFB();
+  console.log('Data deleted successfully from data.json');
   
   //delete img from firebase storage
   return deleteObject(ref(fbstorage, "/images/"+name));
@@ -98,7 +93,7 @@ function deleteImg(name){
 function downloadJSONfromFB(){
   getBytes(ref(fbstorage, "data.json"))
   .then((res)=>{
-    fs.writeFile(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
+    fs.writeFileSync(__dirname+"/public/data.json", Buffer.from(res), (data,err)=>{
       if(err) {
         console.log("error while saving data.json: "+err);
         return false;
@@ -170,7 +165,15 @@ function uploadJSONtoFB(){
 
 //handle GET
 app.get('*', (req, resToClient) => {
-   var success =  downloadAllfromFB();
+  
+   //check if data has to be downloaded
+  var json = fs.readFileSync('./public/data.json', 'utf8');
+  var datajson = JSON.parse(json);
+  var data = datajson.data;
+  var success;
+  if(data === undefined || data.length == 0){
+    success = downloadAllfromFB();
+  } else {success = true;}
 
   //send back html to client
   if(success){
@@ -211,25 +214,18 @@ app.delete('*', (req, res) => {
   } else if (type == "all"){
 
     //delete all data from data.json and update FB
-    fs.readFile('./public/data.json', 'utf8', (error, json) => {
-      if(error){
-          console.log(error);
+    var json = fs.readFileSync('./public/data.json', 'utf8');
+    var datajson = JSON.parse(json);
+    datajson.data.forEach(obj => {deleteImg(obj.img);});
+    datajson.data = [];
+    fs.writeFileSync("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
+        if (error) {
+          console.log('An error while writing data.json has occurred ', error);
           return;
-      }
-      var datajson = JSON.parse(json);
-      datajson.data.forEach(obj => {
-        deleteImg(obj.img);
-      });
-      datajson.data = [];
-      fs.writeFile("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
-          if (error) {
-            console.log('An error while writing data.json has occurred ', error);
-            return;
-          }
-          uploadJSONtoFB();
-          console.log('Data deleted successfully from data.json');
-      });
-    })
+        }
+    });
+    uploadJSONtoFB();
+    console.log('Data deleted successfully from data.json');
     
     //delete all imgages from firebase storage
     listAll(ref(fbstorage, "/images"))
@@ -279,24 +275,19 @@ app.post('/', upload.single("img"), (req, res) => {
       if(downloadJSONfromFB()){
     
         //safe meta data of image to json file
-        fs.readFile('./public/data.json', 'utf8', (error, json) => {
-          if(error){
-            console.log(error);
-            return;
-          }
-          datajson = JSON.parse(json);
-          datajson.data.push({"img": newname, "weight": weight, "date": date});
-          fs.writeFile("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
-              if (error) {
-                console.log('An error while writing data.json has occurred ', error);
-                return;
-              }
-              console.log('Data written successfully to data.json');
+        var json = fs.readFileSync('./public/data.json', 'utf8');
+        var datajson = JSON.parse(json);
+        datajson.data.push({"img": newname, "weight": weight, "date": date});
+        fs.writeFileSync("./public/data.json", JSON.stringify(datajson, null, 2), (error) => {
+            if (error) {
+              console.log('An error while writing data.json has occurred ', error);
+              return;
+            }
+            console.log('Data written successfully to data.json');
 
-              //upload data.json to firebase storage
-              uploadJSONtoFB();
-          });
-        })
+            //upload data.json to firebase storage
+            uploadJSONtoFB();
+        });
 
         //upload img to firebase storage
         const fbstorageImgRef = ref(fbstorage, "/images/"+newname);
