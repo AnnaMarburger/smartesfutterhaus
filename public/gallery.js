@@ -89,7 +89,7 @@ async function loadJSONData(filter, storage) {
     const response = await fetch("./data.json");
     datajson = response.json();
     data = datajson.data;
-    if(data === undefined || data.length == 0){
+    if(data.length < 1){
         //no data there yet
         var container = document.getElementById("gallery-container");
 
