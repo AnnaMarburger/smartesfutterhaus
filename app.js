@@ -124,7 +124,7 @@ function downloadAllfromFB(){
     .then((res) => {
       res.items.forEach((itemRef) => {
         getBytes(itemRef).then((res) => {
-          fs.writeFile(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
+          fs.writeFileSync(__dirname+"/public/uploads/"+itemRef.name, Buffer.from(res), (data,err)=>{
             if(err) {
               console.log("error while saving "+itemRef.name + ": "+err);
               return false;
@@ -189,7 +189,7 @@ app.get('*', (req, resToClient) => {
   if(success){
     resToClient.sendFile(__dirname + '/index.html');
   } else {
-    resToClient.status(503).send("Internalserver error while downloading");
+    resToClient.status(503).send("Internal server error while downloading");
   }
 });
 
@@ -198,9 +198,9 @@ app.get('*', (req, resToClient) => {
 app.delete('*', (req, res) => {
 
   //get request vars
-  const imgname = req.body.name;
-  const password = req.body.password;
-  const type = req.body.type;
+  var imgname = req.body.name;
+  var password = req.body.password;
+  var type = req.body.type;
 
   //check if request correct
   if(password != "SWH2023"){
@@ -307,9 +307,18 @@ app.post('/', upload.single("img"), (req, res) => {
         //upload img to firebase storage
         const fbstorageImgRef = ref(fbstorage, "/images/"+newname);
         const relPath= "/public/uploads/"+img.originalname;
-        const Imgfile = fs.readFileSync(path.join(__dirname, relPath));
-        console.log(uploadString(fbstorageImgRef, Imgfile.toString("base64"), 'base64')); 
+        const imgfile = fs.readFileSync(path.join(__dirname, relPath));
+        uploadString(fbstorageImgRef, imgfile.toString("base64"), 'base64'); 
         
+
+        fs.writeFileSync(path.join(__dirname, "/public/uploads/"+newname), imgfile, (data,err)=>{
+          if(err) {
+            console.log("error while saving "+newname + ": "+err);
+            return false;
+          }
+        });
+
+
         //send ok response
         res.sendStatus(200);
       } else {
