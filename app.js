@@ -82,8 +82,10 @@ function deleteImg(name){
   console.log('Data deleted successfully from data.json');
   
   //delete img from firebase storage
-  return deleteObject(ref(fbstorage, "/images/"+name));
-
+  deleteObject(ref(fbstorage, "/images/"+name)).then(cb, (err) => {
+    if(err) return false;
+  })
+  return true;
 }
 
 /*
@@ -308,7 +310,7 @@ app.post('/', upload.single("img"), (req, res) => {
         const fbstorageImgRef = ref(fbstorage, "/images/"+newname);
         const relPath= "/public/uploads/"+img.originalname;
         const Imgfile = fs.readFileSync(path.join(__dirname, relPath));
-        uploadString(fbstorageImgRef, Imgfile.toString("base64"), 'base64'); 
+        console.log(uploadString(fbstorageImgRef, Imgfile.toString("base64"), 'base64')); 
         
         //send ok response
         res.sendStatus(200);

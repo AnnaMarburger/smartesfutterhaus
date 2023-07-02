@@ -133,9 +133,9 @@ async function loadJSONData(filter) {
             //delete button
             const deleteButton = document.createElement("button");
             deleteButton.className = "btn";
+            deleteButton.addEventListener("click", sendDeleteRequest(name));
             const i = document.createElement("i");
             i.className = "fa fa-trash";
-            i.onclick = sendDeleteRequest(name);
 
             //img 
             const imgcard = document.createElement("div");
@@ -207,7 +207,7 @@ function formatDate(date){
 }
 
 function sendDeleteRequest(name){
-    // console.log("deleting: " + name);
+    console.log("deleting: " + name);
     // var myHeaders = new Headers();
     // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
