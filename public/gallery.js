@@ -131,10 +131,10 @@ async function loadJSONData(filter) {
             datetext.innerText = date;
 
             //delete button
-            const deleteButton = document.createElement("button");
+            var deleteButton = document.createElement("button");
             deleteButton.className = "btn";
             deleteButton.addEventListener("click", sendDeleteRequest(name));
-            const i = document.createElement("i");
+            var i = document.createElement("i");
             i.className = "fa fa-trash";
 
             //img 
