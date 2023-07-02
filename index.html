@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="gallery.js"></script>
 
   <title>Smartes Futterhäuschen</title>
@@ -14,14 +15,16 @@
 
 <body>
     <header>
-      <h2 id="headertext"> SMARTES   FUTTERHÄUSCHEN </h2>
+      <h2 id="headertext"> BIRD BOOTH </h2>
+
+      <h2 id="infotext">Sketching With Hardware - Sommersemester 2023 - Abschlussprojekt</h2>
 
       <div id ="buttonrow">
         <button id = "buttonAlle" class = "filterbutton" type="button" onclick=loadJSONData(0)>Alle</button>
         <button id = "buttonHeute" class = "filterbutton" type="button" onclick=loadJSONData(1)>Heute</button>
         <button id = "buttonDieseWoche" class = "filterbutton" type="button" onclick=loadJSONData(2)>Diese Woche</button>
-        <button id = "buttonSmol" class = "filterbutton" type="button" onclick=loadJSONData(3)>Smol > Heavy</button>
-        <button id = "buttonBig" class = "filterbutton" type="button" onclick=loadJSONData(4)>Heavy > Smol</button>
+        <button id = "buttonSmol" class = "filterbutton" type="button" onclick=loadJSONData(3)>Leicht zu schwer</button>
+        <button id = "buttonBig" class = "filterbutton" type="button" onclick=loadJSONData(4)>Schwer zu leicht</button>
       </div>
     </header>
 

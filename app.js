@@ -1,6 +1,6 @@
 /* Server */
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, listAll, uploadString, getBytes, getBlob, deleteObject } from "firebase/storage";
+import { getStorage, ref, listAll, uploadString, getBytes, deleteObject } from "firebase/storage";
 
 import fs from 'fs';
 import express from 'express';

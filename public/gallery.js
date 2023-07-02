@@ -2,7 +2,6 @@
 Java Script Code, um alle Bilder in einer Gallery auf der Website mit dem 
 jeweils gemessenen Gewicht anzuzeigen
 */
-
 var datajson;
 var data;
 
@@ -90,10 +89,9 @@ async function loadJSONData(filter, storage) {
     datajson = await response.json();
     console.log(datajson.toString());
     data = datajson.data;
-    if(data == 0){
-        //no data there yet
-        var container = document.getElementById("gallery-container");
 
+    //no data there yet
+    if(data == 0){
         //clear gallery-container
         var container = document.getElementById("gallery-container");
         while(container.firstChild){
@@ -108,9 +106,7 @@ async function loadJSONData(filter, storage) {
 
     } else {
         data.reverse(); //reverse order to show the newest pics first
-
-        //check if filter is activated and style button accordingly
-        await applyFilter(filter);
+        await applyFilter(filter); //check if filter is activated and style button accordingly
 
         //clear gallery-container
         var container = document.getElementById("gallery-container");
@@ -118,7 +114,7 @@ async function loadJSONData(filter, storage) {
             container.removeChild(container.firstChild);
         }
     
-        //add img card to gallery for each data object (img+weight)
+        //add img card to gallery for each data object (img+weight+date)
         data.forEach(obj => {
             var name = obj.img;
             var weight = obj.weight;
@@ -135,11 +131,20 @@ async function loadJSONData(filter, storage) {
             const datetext = document.createElement("h5");
             datetext.id = "datetext";
             datetext.innerText = date;
-            
+
+            //delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "btn";
+            deleteButton.onclick = sendDeleteRequest(name);
+            const i = document.createElement("i");
+            i.className = "fa fa-trash";
+
             //img 
             const imgcard = document.createElement("div");
             imgcard.id = "imgcard";
             imgcard.className = "grid-item";
+            const imgcont = document.createElement("div");
+            imgcont.className = "container";
     
             const img = document.createElement("img");
             img.src = "/uploads/"+name;
@@ -149,20 +154,6 @@ async function loadJSONData(filter, storage) {
             if(window.screen.width <= 480){
                 img.width = 264;
                 img.height = 198;
-                //img on hover
-                img.onmouseenter = function(){
-                    img.style.cssText  = `
-                        border: 2px solid white;
-                    `;
-                    img.width = 260;
-                    img.height = 194;
-    
-                };
-                img.onmouseleave = function(){
-                    img.style.border = "none";
-                    img.width = 264;
-                    img.height = 198;
-                };
             } else{
                 img.width = 320;
                 img.height = 240;
@@ -187,9 +178,12 @@ async function loadJSONData(filter, storage) {
             }
         
             //append
+            deleteButton.appendChild(i);
+            imgcont.appendChild(img);
+            imgcont.appendChild(deleteButton);
             imgcardtext.appendChild(weighttext);
             imgcardtext.appendChild(datetext);
-            imgcard.appendChild(img);
+            imgcard.appendChild(imgcont);
             imgcard.appendChild(imgcardtext);
             container.appendChild(imgcard);
             
@@ -214,6 +208,24 @@ function formatDate(date){
     return datestring;
 }
 
+function sendDeleteRequest(name){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("name", name);
+    urlencoded.append("password", "SWH2023");
+    urlencoded.append("type", "single");
+
+    var requestOptions = {
+    method: 'DELETE',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+    };
+
+    fetch("https://smartesfutterhaus.onrender.com", requestOptions);
+}
   
 loadJSONData();
 
