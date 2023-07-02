@@ -211,10 +211,8 @@ app.delete('*', (req, res) => {
   } else if(type == "single"){
 
     //delete from local and firebase and update data.json accordingly everywhere
-    deleteImg(imgname);
-
     //answer client if deletion was succesful
-    if(deleteImg()){
+    if(deleteImg(imgname)){
       res.status(200).send(`You successfully deleted the file: ${imgname}`);
     } else {
       res.status(500).send(`An error occured while deleting the file: ${imgname}. Try again.`);
