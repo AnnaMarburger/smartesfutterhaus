@@ -55,7 +55,6 @@ async function applyFilter(filter){
          `;
     }
 
-
     resetHighlights();
 
     switch (filter) {
@@ -82,12 +81,11 @@ async function applyFilter(filter){
 }
 
 
-async function loadJSONData(filter, storage) {
+async function loadJSONData(filter) {
 
     //get the metadata
     const response = await fetch("./data.json");
     datajson = await response.json();
-    console.log(datajson.toString());
     data = datajson.data;
 
     //no data there yet
@@ -135,9 +133,9 @@ async function loadJSONData(filter, storage) {
             //delete button
             const deleteButton = document.createElement("button");
             deleteButton.className = "btn";
-            deleteButton.onclick = sendDeleteRequest(name);
             const i = document.createElement("i");
             i.className = "fa fa-trash";
+            i.onclick = sendDeleteRequest(name);
 
             //img 
             const imgcard = document.createElement("div");
@@ -209,6 +207,7 @@ function formatDate(date){
 }
 
 function sendDeleteRequest(name){
+    console.log("deleting: " + name);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
