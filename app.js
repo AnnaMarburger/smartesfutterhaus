@@ -61,12 +61,6 @@ app.use(express.urlencoded({extended: true}));
 */
 function deleteImg(name){
 
-  //delete from local files
-  fs.unlink("./public/uploads/"+name, (err) => {
-    console.log("error occured while deleting: " + err);
-    return false;
-  });
-
   //delete meta data from image entry in data.json
   var json = fs.readFileSync('./public/data.json', 'utf8');
   var datajson = JSON.parse(json);
@@ -80,6 +74,9 @@ function deleteImg(name){
   });
   uploadJSONtoFB();
   console.log('Data deleted successfully from data.json');
+
+  //delete from local files
+  fs.unlink("./public/uploads/"+name);
   
   //delete img from firebase storage
   deleteObject(ref(fbstorage, "/images/"+name));
