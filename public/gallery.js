@@ -207,23 +207,25 @@ function formatDate(date){
 }
 
 function sendDeleteRequest(name){
-    console.log("deleting: " + name);
-    // var myHeaders = new Headers();
-    // myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+   return function sendingDeleteRequest(){
+        console.log("deleting: " + name);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    // var urlencoded = new URLSearchParams();
-    // urlencoded.append("name", name);
-    // urlencoded.append("password", "SWH2023");
-    // urlencoded.append("type", "single");
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("name", name);
+        urlencoded.append("password", "SWH2023");
+        urlencoded.append("type", "single");
 
-    // var requestOptions = {
-    // method: 'DELETE',
-    // headers: myHeaders,
-    // body: urlencoded,
-    // redirect: 'follow'
-    // };
+        var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+        };
 
-    // fetch("https://smartesfutterhaus.onrender.com", requestOptions);
+        fetch("https://smartesfutterhaus.onrender.com", requestOptions);
+   }
 }
   
 loadJSONData();
