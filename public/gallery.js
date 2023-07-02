@@ -225,6 +225,8 @@ function sendDeleteRequest(name){
         };
 
         fetch("https://smartesfutterhaus.onrender.com", requestOptions);
+
+        loadJSONData();
    }
 }
   
