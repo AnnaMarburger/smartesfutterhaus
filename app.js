@@ -82,9 +82,7 @@ function deleteImg(name){
   console.log('Data deleted successfully from data.json');
   
   //delete img from firebase storage
-  deleteObject(ref(fbstorage, "/images/"+name)).then(cb, (err) => {
-    if(err) return false;
-  })
+  deleteObject(ref(fbstorage, "/images/"+name));
   return true;
 }
 
