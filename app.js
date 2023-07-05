@@ -75,11 +75,14 @@ function deleteImg(name){
   uploadJSONtoFB();
   console.log('Data deleted successfully from data.json');
 
-  //delete from local files
-  fs.unlink("./public/uploads/"+name);
-  
   //delete img from firebase storage
   deleteObject(ref(fbstorage, "/images/"+name));
+
+  //delete from local files
+  fs.unlink("./public/uploads/"+name, ()=>{
+    console.log("unlinked file: "+name);
+  });
+
   return true;
 }
 
